@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'findbugs'
+
+repositories {
+    mavenCentral()
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    classes = fileTree('build/classes/')
+    source = fileTree('src/main/java/')
+    classpath = files()
+    effort = 'max'
+    reportLevel = "low"  // ＊どのレベルの報告まで対応するかで変更＊
+    // excludeFilter = new File("${project.rootDir}/findbugs-filter.xml")
+}
+
+// html出力の方が見やすいため
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
